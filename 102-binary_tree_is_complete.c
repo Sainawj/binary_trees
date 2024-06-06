@@ -7,12 +7,13 @@
  */
 link_t *create_node(binary_tree_t *node)
 {
-    link_t *new_node = malloc(sizeof(link_t));
-    if (new_node == NULL)
-        return NULL;
-    new_node->node = node;
-    new_node->next = NULL;
-    return new_node;
+	link_t *new_node = malloc(sizeof(link_t));
+
+	if (new_node == NULL)
+	return (NULL);
+	new_node->node = node;
+	new_node->next = NULL;
+	return (new_node);
 }
 
 /**
@@ -21,12 +22,13 @@ link_t *create_node(binary_tree_t *node)
  */
 void free_queue(link_t *head)
 {
-    while (head != NULL)
-    {
-        link_t *temp = head;
-        head = head->next;
-        free(temp);
-    }
+	while (head != NULL)
+	{
+	link_t *temp = head;
+
+	head = head->next;
+	free(temp);
+	}
 }
 
 /**
@@ -37,17 +39,19 @@ void free_queue(link_t *head)
  */
 void push(binary_tree_t *node, link_t **head, link_t **tail)
 {
-    link_t *new_node = create_node(node);
-    if (new_node == NULL)
-    {
-        free_queue(*head);
-        exit(1);
-    }
-    if (*head == NULL)
-        *head = new_node;
-    else
-        (*tail)->next = new_node;
-    *tail = new_node;
+	link_t *new_node = create_node(node);
+
+	if (new_node == NULL)
+	{
+	free_queue(*head);
+	exit(1);
+
+	}
+	if (*head == NULL)
+	*head = new_node;
+	else
+	(*tail)->next = new_node;
+	*tail = new_node;
 }
 
 /**
@@ -56,11 +60,11 @@ void push(binary_tree_t *node, link_t **head, link_t **tail)
  */
 void pop(link_t **head)
 {
-    if (*head == NULL)
-        return;
-    link_t *temp = *head;
-    *head = (*head)->next;
-    free(temp);
+	if (*head == NULL)
+	return;
+	link_t *temp = *head;
+	*head = (*head)->next;
+	free(temp);
 }
 
 /**
@@ -70,42 +74,42 @@ void pop(link_t **head)
  */
 int binary_tree_is_complete(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return 0;
+	if (tree == NULL)
+	return (0);
 
-    link_t *head = NULL, *tail = NULL;
-    int flag = 0;
+	link_t *head = NULL, *tail = NULL;
+	int flag = 0;
 
-    push((binary_tree_t *)tree, &head, &tail);
+	push((binary_tree_t *)tree, &head, &tail);
 
-    while (head != NULL)
-    {
-        if (head->node->left != NULL)
-        {
-            if (flag == 1)
-            {
-                free_queue(head);
-                return 0;
-            }
-            push(head->node->left, &head, &tail);
-        }
-        else
-            flag = 1;
+	while (head != NULL)
+	{
+		if (head->node->left != NULL)
+		{
+		if (flag == 1)
+		{
+		free_queue(head);
+		return (0);
+		}
+		push(head->node->left, &head, &tail);
+		}
+		else
+		flag = 1;
 
-        if (head->node->right != NULL)
-        {
-            if (flag == 1)
-            {
-                free_queue(head);
-                return 0;
-            }
-            push(head->node->right, &head, &tail);
-        }
-        else
-            flag = 1;
+		if (head->node->right != NULL)
+		{
+		if (flag == 1)
+		{
+		free_queue(head);
+		return (0);
+		}
+		push(head->node->right, &head, &tail);
+		}
+		else
+		flag = 1;
 
-        pop(&head);
-    }
+		pop(&head);
+	}
 
-    return 1;
+	return (1);
 }
