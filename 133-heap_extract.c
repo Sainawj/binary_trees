@@ -36,7 +36,7 @@ void sift_down(heap_t *heap)
 	heap_t *largest, *child;
 
 	while (1)
-    {
+	{
 		largest = heap;
 		child = heap->left;
 
@@ -45,7 +45,7 @@ void sift_down(heap_t *heap)
 
 		child = heap->right;
 		if (child != NULL && child->n > largest->n)
-		largest = child;
+			largest = child;
 
 		if (largest == heap)
 			break;
@@ -73,9 +73,9 @@ int heap_extract(heap_t **root)
 	while (last_node->right != NULL)
 	{
 		if (last_node->right->parent != last_node)
-		last_node = last_node->right;
+			last_node = last_node->right;
 		else if (last_node->left->parent != last_node)
-		last_node = last_node->left;
+			last_node = last_node->left;
 	}
 
 	if (last_node->parent != NULL)
@@ -83,7 +83,7 @@ int heap_extract(heap_t **root)
 		if (last_node->parent->right != NULL)
 			last_node->parent->right = NULL;
 		else
-		last_node->parent->left = NULL;
+			last_node->parent->left = NULL;
 	}
 
 	if (*root == last_node)
@@ -96,7 +96,7 @@ int heap_extract(heap_t **root)
 	(*root)->n = last_node->n;
 	current_node = last_node->parent;
 	if (current_node->right == NULL)
-	current_node->left = NULL;
+		current_node->left = NULL;
 	else
 		current_node->right = NULL;
 
