@@ -19,7 +19,6 @@ bst_t *array_to_bst(int *array, size_t size)
 		if (bst_insert(&root, array[i]) == NULL)
 		{
 /* Memory allocation failure or duplicate value, free tree and return NULL */
-		binary_tree_delete(root);
 		return (NULL);
 		}
 	}
