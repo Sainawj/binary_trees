@@ -1,58 +1,69 @@
 #include "binary_trees.h"
 
 /**
- * bst_min_value_node - Finds the node with the smallest value in a BST
- * @node: Pointer to the root of the tree
- * Return: Pointer to the node with the smallest value
+ * successor - Find the in-order successor (minimum value-right subtree)
+ * @node: The node to check
+ * Return: The value of the in-order successor
  */
-bst_t *bst_min_value_node(bst_t *node)
+int successor(bst_t *node)
 {
-	bst_t *current = node;
-
-	while (current && current->left != NULL)
-	current = current->left;
-
-	return (current);
+	while (node && node->left)
+	node = node->left;
+	return (node ? node->n : 0);
 }
 
 /**
- * bst_remove - Removes a node with a specific value from a BST
- * @root: Pointer to the root node of the tree
- * @value: Value to remove from the tree
- * Return: Pointer to the new root node of the tree
+ * remove_node - Remove a node from the BST
+ * @node: The node to remove
+ * Return: Pointer to the node to replace the removed node (if any)
+ */
+bst_t *remove_node(bst_t *node)
+{
+	bst_t *temp = NULL;
+
+	if (!node->left && !node->right)
+	{
+		free(node);
+		return (NULL);
+	}
+		if (!node->left)
+	{
+		temp = node->right;
+		temp->parent = node->parent;
+		free(node);
+		return (temp);
+	}
+		if (!node->right)
+		{
+		temp = node->left;
+		temp->parent = node->parent;
+		free(node);
+		return (temp);
+		}
+
+/* Node with two children */
+	node->n = successor(node->right);
+	node->right = bst_remove(node->right, node->n);
+	return (node);
+}
+
+/**
+ * bst_remove - Remove a node from a BST
+ * @root: The root of the tree
+ * @value: The value to remove
+ * Return: Pointer to the new root of the tree
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	if (root == NULL)
-	return (NULL);
+	if (!root)
+		return (NULL);
 
 	if (value < root->n)
-	root->left = bst_remove(root->left, value);
+		root->left = bst_remove(root->left, value);
 	else if (value > root->n)
-	root->right = bst_remove(root->right, value);
-
+		root->right = bst_remove(root->right, value);
 	else
-	{
-		if (root->left == NULL)
-		{
-		bst_t *temp = root->right;
-
-		free(root);
-		return (temp);
-		}
-		else if (root->right == NULL)
-		{
-		bst_t *temp = root->left;
-
-		free(root);
-		return (temp);
-		}
-
-		bst_t *temp = bst_min_value_node(root->right);
-
-		root->n = temp->n;
-		root->right = bst_remove(root->right, temp->n);
-	}
+		root = remove_node(root);
 
 	return (root);
 }
