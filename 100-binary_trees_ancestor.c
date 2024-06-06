@@ -41,13 +41,13 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tr
 	}
 
 	while (depth_second > depth_first)
-    {
+	{
 		second = second->parent;
 		depth_second--;
-    }
+	}
 
 	while (first && second)
-    {
+	{
 		if (first == second)
 		return ((binary_tree_t *)first);
 
